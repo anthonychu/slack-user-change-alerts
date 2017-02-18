@@ -38,7 +38,7 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
 }
 
 private static IEnumerable<Member> DeserializeMembers(string json) =>
-    JsonConvert.DeserializeObject<UserCollection>(json).Members.Where(m => !m.Deleted).ToList();
+    JsonConvert.DeserializeObject<UserCollection>(json).Members.Where(m => !m.Deleted);
 
 private static string Env(string name) => System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 
