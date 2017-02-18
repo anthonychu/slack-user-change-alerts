@@ -28,12 +28,12 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
     if (users.Any())
     {
         var slackMessage = message + string.Join(", ", users.Select(u => $"{u.Name}({u.Real_name ?? ""})"));
-        log.Info($"Sent to {Env("UsersToNotify")}:\n{slackMessage}");
+        log.Info($"Sent to {Env("ChannelsToNotify")}:\n{slackMessage}");
 
-        var channels = Env("UsersToNotify").Split(',');
+        var channels = Env("ChannelsToNotify").Split(',');
         foreach (var channel in channels)
         {
-            await httpClient.PostAsync($"{Env("SlackbotUrl")}&channel=@{channel.Trim()}", new StringContent(slackMessage));
+            await httpClient.PostAsync($"{Env("SlackbotUrl")}&channel={channel.Trim()}", new StringContent(slackMessage));
         }
     }
 }
