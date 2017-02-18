@@ -4,10 +4,9 @@ using Newtonsoft.Json;
 static HttpClient httpClient = new HttpClient();
 static MemberComparer comparer = new MemberComparer();
 
-public static async Task<string> Run(
-    TimerInfo myTimer, string previousUsersJson, TraceWriter log)
+public static async Task<string> Run(TimerInfo myTimer, string previousUsersJson, TraceWriter log)
 {
-    var currentUsersJson = await httpClient.GetStringAsync($"https://slack.com/api/users.list?token={Env("SlackApiToken")}&pretty");
+    var currentUsersJson = await httpClient.GetStringAsync($"https://slack.com/api/users.list?token={Env("SlackApiToken")}&pretty=1");
     
     if (!string.IsNullOrEmpty(previousUsersJson))
     {
@@ -28,7 +27,7 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
     if (users.Any())
     {
         var slackMessage = message + string.Join(", ", users.Select(u => $"{u.Name}({u.Real_name ?? ""})"));
-        log.Info($"Sent to {Env("ChannelsToNotify")}:\n{slackMessage}");
+        log.Info($"Sending to {Env("ChannelsToNotify")}:\n{slackMessage}");
 
         var channels = Env("ChannelsToNotify").Split(',');
         foreach (var channel in channels)
@@ -39,7 +38,7 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
 }
 
 private static IEnumerable<Member> DeserializeMembers(string json) =>
-    JsonConvert.DeserializeObject<UserCollection>(json).Members.Where(m => !m.Deleted);
+    JsonConvert.DeserializeObject<UserCollection>(json).Members.Where(m => !m.Deleted).ToList();
 
 private static string Env(string name) => System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 
