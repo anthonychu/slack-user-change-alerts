@@ -26,7 +26,7 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
 {
     if (users.Any())
     {
-        var slackMessage = message + string.Join(", ", users.Select(u => $"{u.Name}({u.Real_name ?? ""})"));
+        var slackMessage = message + string.Join(", ", users.Select(u => $"{u.Name}({u.Profile?.Real_name ?? ""})"));
         log.Info($"Sending to {Env("ChannelsToNotify")}:\n{slackMessage}");
 
         var channels = Env("ChannelsToNotify").Split(',');
@@ -49,13 +49,19 @@ public class UserCollection
 
 public class Member
 {
+    public string Id { get; set; }
     public string Name { get; set; }
-    public string Real_name { get; set; }
     public bool Deleted { get; set; }
+    public Profile Profile { get; set; }
+}
+
+public class Profile
+{
+    public string Real_name { get; set; }
 }
 
 public class MemberComparer : IEqualityComparer<Member>
 {
-    public bool Equals(Member x, Member y) => x.Name == y.Name;
+    public bool Equals(Member x, Member y) => x.Id == y.Id;
     public int GetHashCode(Member m) => 0;
 }
