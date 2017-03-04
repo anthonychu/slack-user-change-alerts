@@ -4,6 +4,8 @@ An Azure Function that sends a Slackbot notification to specified users or chann
 
 Port from https://github.com/cfe84/slack-users-change-alerts.
 
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.svg)](https://azuredeploy.net/)
+
 ## Getting Started
 
 - Fork this repo
