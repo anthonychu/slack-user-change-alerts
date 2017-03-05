@@ -8,10 +8,10 @@ Port from https://github.com/cfe84/slack-users-change-alerts.
 
 Here are the app settings that the function app depends on:
 
-- SlackApiToken - The token used to query the Slack API. Obtained from [https://api.slack.com/custom-integrations/legacy-tokens](https://api.slack.com/custom-integrations/legacy-tokens)
-- SlackbotUrl - URL to the webhook for invoking Slackbot. Obtained from Slack by going to: `'Apps and Integrations' > 'Apps' > 'Custom Integrations' > 'Slackbot'`. Create a new configuration if necessary.
-- ChannelsToNotify - Comma-separated list of users or channels to notify (include @ or #). For example: `@anthony, @charles`
-- StorageConnection - Connection string to a Storage account. Used to persist state between function executions.
+- **SlackApiToken** - The token used to query the Slack API. Obtained from [https://api.slack.com/custom-integrations/legacy-tokens](https://api.slack.com/custom-integrations/legacy-tokens)
+- **SlackbotUrl** - URL to the webhook for invoking Slackbot. Obtained from Slack by going to: `'Apps and Integrations' > 'Apps' > 'Custom Integrations' > 'Slackbot'`. Create a new configuration if necessary.
+- **ChannelsToNotify** - Comma-separated list of users or channels to notify (include @ or #). For example: `@anthony, @charles`
+- **StorageConnection** - Connection string to a Storage account. Used to persist state between function executions.
 
 ## Quick Deploy to Azure
 
