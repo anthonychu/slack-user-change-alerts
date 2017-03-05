@@ -2,7 +2,13 @@
 
 An Azure Function that sends a Slackbot notification to specified users or channels when users are added or removed from Slack.
 
-Port from https://github.com/cfe84/slack-users-change-alerts.
+Ported from https://github.com/cfe84/slack-users-change-alerts.
+
+## Quick Deploy to Azure
+
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.svg)](https://azuredeploy.net/)
+
+See below for application setting values.
 
 ## Application settings
 
@@ -12,10 +18,6 @@ Here are the app settings that the function app depends on:
 - **SlackbotUrl** - URL to the webhook for invoking Slackbot. Obtained from Slack by going to: `'Apps and Integrations' > 'Apps' > 'Custom Integrations' > 'Slackbot'`. Create a new configuration if necessary.
 - **ChannelsToNotify** - Comma-separated list of users or channels to notify (include @ or #). For example: `@anthony, @charles`
 - **StorageConnection** - Connection string to a Storage account. Used to persist state between function executions.
-
-## Quick Deploy to Azure
-
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.svg)](https://azuredeploy.net/)
 
 ## Running Locally
 
