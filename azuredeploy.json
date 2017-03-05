@@ -12,6 +12,24 @@
             "metadata": {
                 "description": "The location to use for creating the function app and hosting plan. It must be one of the Azure locations that support function apps."
             }
+        },
+        "slackApiToken": {
+            "type": "string",
+            "metadata": {
+                "description": "API token obtained from https://api.slack.com/custom-integrations/legacy-tokens"
+            }
+        },
+        "slackbotUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Slackbot URL obtained from 'Apps and Integrations' > 'Apps' > 'Custom Integrations' > 'Slackbot'"
+            }
+        },
+        "channelsToNotify": {
+            "type": "string",
+            "metadata": {
+                "description": "Comma separated list of channels/users to notify (e.g.: \"@anthony, @charles\")"
+            }
         }
     },
     "variables": {
@@ -48,27 +66,42 @@
                         {
                             "name": "WEBSITE_CONTENTSHARE",
                             "value": "[variables('contentShareName')]"
+                        },
+                        {
+                            "name": "StorageConnection",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "SlackApiToken",
+                            "value": "[parameters('slackApiToken')]"
+                        },
+                        {
+                            "name": "SlackbotUrl",
+                            "value": "[parameters('slackbotUrl')]"
+                        },
+                        {
+                            "name": "ChannelsToNotify",
+                            "value": "[parameters('channelsToNotify')]"
                         }
                     ]
                 },
-                "resources": [
-                    {
-                        "apiVersion": "2015-08-01",
-                        "name": "web",
-                        "type": "sourcecontrols",
-                        "dependsOn": [
-                            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
-                            "[concat('Microsoft.Web/Sites/', parameters('siteName'), '/config/web')]"
-                        ],
-                        "properties": {
-                            "RepoUrl": "[variables('repoURL')]",
-                            "branch": "[variables('branch')]",
-                            "IsManualIntegration": true
-                        }
-                    }
-                ],
                 "clientAffinityEnabled": false
             },
+            "resources": [
+                {
+                    "apiVersion": "2015-08-01",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+                    ],
+                    "properties": {
+                        "RepoUrl": "[variables('repoURL')]",
+                        "branch": "[variables('branch')]",
+                        "IsManualIntegration": true
+                    }
+                }
+            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
