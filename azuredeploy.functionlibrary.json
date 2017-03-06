@@ -1,0 +1,61 @@
+{
+    "parameters": {
+        "appName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the function app that you wish to create."
+            }
+        },
+        "slackApiToken": {
+            "type": "string",
+            "metadata": {
+                "description": "API token obtained from https://api.slack.com/custom-integrations/legacy-tokens"
+            }
+        },
+        "slackbotUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Slackbot URL obtained from 'Apps and Integrations' > 'Apps' > 'Custom Integrations' > 'Slackbot'"
+            }
+        },
+        "channelsToNotify": {
+            "type": "string",
+            "metadata": {
+                "description": "Comma separated list of channels/users to notify (e.g.: \"@anthony, @charles\")"
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-01-01",
+            "name": "linkedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/anthonychu/slack-user-change-alerts/master/azuredeploy.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "siteName": {
+                        "value": "[parameters('appName')]"
+                    },
+                    "slackApiToken": {
+                        "value": "[parameters('slackApiToken')]"
+                    },
+                    "slackbotUrl": {
+                        "value": "[parameters('slackbotUrl')]"
+                    },
+                    "channelsToNotify": {
+                        "value": "[parameters('channelsToNotify')]"
+                    },
+                    "siteLocation": {
+                        "value": "[resourceGroup().location]"
+                    }
+                }
+            }
+        }
+    ],
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0"
+}
