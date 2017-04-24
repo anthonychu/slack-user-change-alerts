@@ -34,7 +34,7 @@ private static async Task SendMessage(string message, IEnumerable<Member> users,
         var channels = Env("ChannelsToNotify").Split(',');
         foreach (var channel in channels)
         {
-            await httpClient.PostAsync($"{Env("SlackbotUrl")}&channel={channel.Trim()}", new StringContent(slackMessage));
+            await httpClient.PostAsync($"{Env("SlackbotUrl")}&channel={Uri.EscapeDataString(channel.Trim())}", new StringContent(slackMessage));
         }
     }
 }
